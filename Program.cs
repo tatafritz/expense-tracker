@@ -2,12 +2,13 @@
 {
     public static void Main(string[] args)
     {
+        bool keepRunning = true;
         ExpenseService expenseService = new ExpenseService();
 
-        while (true)
+        while (keepRunning)
         {
             Console.WriteLine("\n==== Expense Tracker ====");
-            Console.WriteLine("[1] - Add an expense\n[2] - List all expenses\n[3] - Update an expense\n[4] - Delete an expense");
+            Console.WriteLine("[1] - Add an expense\n[2] - List all expenses\n[3] - Update an expense\n[4] - Delete an expense\n[0] - Exit");
             Console.Write("Enter an option: ");
             
             int input = Convert.ToInt32(Console.ReadLine());
@@ -33,17 +34,30 @@
                     expenseService.AddExpense(expense);
                     break;
                 case 2:
-                    Console.WriteLine("\nExpenses List:");
+                    Console.WriteLine("\n================ EXPENSES ================\n");
+                    Console.WriteLine(
+                        "{0,-4} {1,-12} {2,-18} {3,-15} {4,10}",
+                        "ID",
+                        "DATE",
+                        "DESCRIPTION",
+                        "CATEGORY",
+                        "AMOUNT"
+                    );
+
+                    Console.WriteLine(new string('-', 65));
 
                     List<Expense> expenses = expenseService.GetExpenses();
 
                     foreach (Expense currentExpense in expenses)
                     {
-                        Console.WriteLine($"\nId: {currentExpense.Id}");
-                        Console.WriteLine($"Amount: {currentExpense.Amount}");
-                        Console.WriteLine($"Description: {currentExpense.Description}");
-                        Console.WriteLine($"Category: {currentExpense.Category}");
-                        Console.WriteLine($"Date: {currentExpense.Date}");
+                        Console.WriteLine(
+                            "{0,-4} {1,-12} {2,-18} {3,-15} {4,10:C}",
+                            currentExpense.Id,
+                            currentExpense.Date.ToString("dd/MM/yyyy"),
+                            currentExpense.Description,
+                            currentExpense.Category,
+                            currentExpense.Amount
+                        );
                     }
                     break;
                 case 3:
@@ -93,6 +107,11 @@
                     {
                         Console.WriteLine("There are no expenses with the informed ID.");
                     }
+                    break;
+                case 0:
+                    Console.WriteLine("\nExiting...");
+                    Thread.Sleep(2000);
+                    keepRunning = false;
                     break;
             }
         }    

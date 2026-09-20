@@ -3,7 +3,14 @@ public class ExpenseService
     private readonly List<Expense> _expenses = new List<Expense>();
     public void AddExpense(Expense expense)
     {
-        expense.Id = _expenses.Count + 1;
+        if (_expenses.Count == 0)
+        {
+            expense.Id = 1;
+        } else
+        {
+            expense.Id = _expenses.Max(e => e.Id) + 1;
+        }
+
         expense.Date = DateTime.Now;
 
         _expenses.Add(expense);
@@ -41,6 +48,11 @@ public class ExpenseService
             return false;
         
         _expenses.Remove(expense);
+
+        for (int i = 0; i < _expenses.Count; i++)
+        {
+            _expenses[i].Id = i + 1;
+        }
 
         return true;
     }
