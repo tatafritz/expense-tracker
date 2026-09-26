@@ -58,11 +58,18 @@
                         );
                     }
                     break;
-                // case 3 and 4: add a check ID
                 case 3:
                     Console.WriteLine("\nUpdate Expense\n");
                     
                     int updateId = input.IntInput("Inform expense ID to be updated: ");
+
+                    Expense? expenseToUpdate = expenseService.GetExpenseById(updateId);
+
+                    if (expenseToUpdate == null)
+                    {
+                        Console.WriteLine("There are no expenses with the informed ID.");
+                        break;
+                    }
 
                     decimal amount = input.DecimalInput("New amount: ");
 
@@ -72,21 +79,14 @@
                     Console.Write("New category: ");
                     string category = Console.ReadLine();
 
-                    bool updated = expenseService.UpdateExpense(
+                    expenseService.UpdateExpense(
                         updateId,
                         amount,
                         description,
                         category
                     );
 
-                    if (updated)
-                    {
-                        Console.WriteLine("Expense updated successfully.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("There are no expenses with the informed ID.");
-                    }
+                    Console.WriteLine("Expense updated successfully.");
                     break;
                 case 4:
                     Console.WriteLine("\nDelete Expense\n");
