@@ -124,7 +124,7 @@ Future versions may introduce persistent storage and additional expense-manageme
 
 Some features I may explore in future versions:
 
-* [ ] Input validation
+* [ x ] Input validation
 * [ ] Persistent storage with JSON
 * [ ] Expense categories
 * [ ] Search and filtering

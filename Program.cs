@@ -3,27 +3,25 @@
     public static void Main(string[] args)
     {
         bool keepRunning = true;
+        InputHelper input = new InputHelper();
         ExpenseService expenseService = new ExpenseService();
 
         while (keepRunning)
         {
             Console.WriteLine("\n==== Expense Tracker ====");
-            Console.WriteLine("[1] - Add an expense\n[2] - List all expenses\n[3] - Update an expense\n[4] - Delete an expense\n[0] - Exit");
-            Console.Write("Enter an option: ");
+            Console.WriteLine("[1] - Add an expense\n[2] - List all expenses\n[3] - Update an expense\n[4] - Delete an expense\n[5] - Exit");
             
-            int input = Convert.ToInt32(Console.ReadLine());
+            int menuOption = input.IntInput("Enter a number: ");
 
             Thread.Sleep(2000);
 
-            switch (input)
+            switch (menuOption)
             {
                 case 1:
                     Console.WriteLine("\nAdd Expense:\n");
 
                     Expense expense = new Expense();
-
-                    Console.Write("Amount: ");
-                    expense.Amount = Convert.ToDecimal(Console.ReadLine());
+                    expense.Amount = input.DecimalInput("Amount: ");
 
                     Console.Write("Description: ");
                     expense.Description = Console.ReadLine();
@@ -60,14 +58,13 @@
                         );
                     }
                     break;
+                // case 3 and 4: add a check ID
                 case 3:
                     Console.WriteLine("\nUpdate Expense\n");
                     
-                    Console.Write("Inform expense ID to be updated: ");
-                    int updateId = Convert.ToInt32(Console.ReadLine());
+                    int updateId = input.IntInput("Inform expense ID to be updated: ");
 
-                    Console.Write("New amount: ");
-                    decimal amount = Convert.ToDecimal(Console.ReadLine());
+                    decimal amount = input.DecimalInput("New amount: ");
 
                     Console.Write("New description: ");
                     string description = Console.ReadLine();
@@ -94,8 +91,7 @@
                 case 4:
                     Console.WriteLine("\nDelete Expense\n");
 
-                    Console.Write("Inform expense ID to be deleted: ");
-                    int deleteId = Convert.ToInt32(Console.ReadLine());
+                    int deleteId = input.IntInput("Inform expense ID to be deleted: ");
 
                     bool deleted = expenseService.DeleteExpense(deleteId);
 
@@ -108,7 +104,7 @@
                         Console.WriteLine("There are no expenses with the informed ID.");
                     }
                     break;
-                case 0:
+                case 5:
                     Console.WriteLine("\nExiting...");
                     Thread.Sleep(2000);
                     keepRunning = false;
